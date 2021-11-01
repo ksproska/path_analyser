@@ -48,6 +48,16 @@ class PathAnalyser:
         return extension
 
     @classmethod
+    def extension_with_dot(cls, path: str) -> str:
+        """
+        Returns extension of file from given path. Empty string if directory.
+        """
+        extension = cls.extension(path)
+        if extension == '':
+            return extension
+        return f'.{extension}'
+
+    @classmethod
     def directory_filename(cls, path: str) -> (str, str):
         """
         Returns tuple of directory and filename. If no preceding folder directory empty.
@@ -71,6 +81,18 @@ class PathAnalyser:
             return searched.group('dir'), searched.group('file'), ''
         except AttributeError:
             return '', path, ''
+
+    @classmethod
+    def directory_filename_extension_with_dot(cls, path: str) -> (str, str, str):
+        """
+        Returns tuple of directory, filename and extension.
+        If no preceding folder directory empty.
+        If directory extension empty.
+        """
+        directory, filename, extension = cls.directory_filename_extension(path)
+        if extension == '':
+            return directory, filename, extension
+        return directory, filename, f'.{extension}'
 
     @classmethod
     def is_directory(cls, path: str) -> bool:
